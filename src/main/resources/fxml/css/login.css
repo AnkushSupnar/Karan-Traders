@@ -1,0 +1,21 @@
+.left{
+    -fx-background-color:#0275d8;
+}
+.left .text .Glyph-icon{
+    fx-fill-color:white;
+}
+.combobox{
+    -fx-font-family: arial;
+    -fx-font-size: 16px;
+    -fx-text-fill: #a0522d; 
+}
+comboBox .list-cell{
+    -fx-font-family: arial;
+    -fx-font-size: 16px;
+    -fx-text-fill: #a0522d; 
+ }
+.password{
+    -fx-font-family: arial;
+    -fx-font-size: 16px;
+    -fx-text-fill:#0275d8; 
+}

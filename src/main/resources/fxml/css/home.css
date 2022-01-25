@@ -1,0 +1,10 @@
+.top{
+    -fx-border-color:black;
+}
+.top .glyph-icon .text{
+    -fx-fill:#0275d8;
+}
+
+.menu .glyph-icon{
+    -fx-fill:white;
+}

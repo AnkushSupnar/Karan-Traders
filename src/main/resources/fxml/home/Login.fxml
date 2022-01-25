@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="680.0" styleClass="root" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.home.LoginController">
+   <children>
+      <AnchorPane layoutX="52.0" layoutY="30.0" prefHeight="511.0" prefWidth="306.0" styleClass="left" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="44.0" layoutY="116.57142639160156">
+               <children>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LEAF" size="5em" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Karan Traders">
+                     <font>
+                        <Font name="Georgia Bold Italic" size="30.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sonai">
+                     <font>
+                        <Font name="Georgia" size="25.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <VBox alignment="CENTER" layoutX="306.0" layoutY="22.0" prefHeight="154.0" prefWidth="374.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <FontAwesomeIcon fill="#0275d8" glyphName="USER" size="10em" />
+            <Text fill="#0275d8" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+               <font>
+                  <Font name="Georgia Bold" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+      <VBox layoutX="371.0" layoutY="209.0">
+         <children>
+            <Label text="User Name" textFill="#0275d8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <FontAwesomeIcon fill="#0275d8" glyphName="USER" size="1.5em">
+                     <HBox.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <ComboBox fx:id="cmbUserNames" prefHeight="26.0" prefWidth="233.0" promptText="Select User Name" styleClass="combobox" />
+               </children>
+            </HBox>
+            <Label text="Password" textFill="#0275d8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <FontAwesomeIcon fill="#0275d8" glyphName="KEY" size="1.5em">
+                     <HBox.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <PasswordField fx:id="txtPassword" prefHeight="31.0" prefWidth="233.0" promptText="Enter Password" styleClass="password" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button fx:id="btnLogin" layoutX="371.0" layoutY="381.0" mnemonicParsing="false" stylesheets="@../css/button.css" text="LOGIN">
+         <graphic>
+            <FontAwesomeIcon glyphName="SIGN_IN" />
+         </graphic>
+         <font>
+            <Font name="Georgia" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnCancel" layoutX="537.0" layoutY="381.0" mnemonicParsing="false" stylesheets="@../css/button.css" text="CANCEL">
+         <graphic>
+            <FontAwesomeIcon glyphName="SIGN_IN" />
+         </graphic>
+         <font>
+            <Font name="Georgia" size="16.0" />
+         </font>
+      </Button>
+      <Hyperlink fx:id="linkAddUser" layoutX="387.0" layoutY="446.0" prefHeight="23.0" prefWidth="194.0" text="Create New User?" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</AnchorPane>
