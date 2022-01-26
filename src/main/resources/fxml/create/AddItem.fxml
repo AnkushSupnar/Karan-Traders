@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.create.AddItemController">
+   <children>
+      <SplitPane dividerPositions="0.4430921794004958" layoutX="151.0" layoutY="87.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane maxWidth="412.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <StackPane layoutX="29.0" layoutY="14.0" prefHeight="103.0" prefWidth="412.0" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <FontAwesomeIcon fill="#0275d8" glyphName="BUS" size="5em" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets top="5.0" />
+                           </StackPane.margin>
+                        </FontAwesomeIcon>
+                        <Label text="ADD ITEM" textFill="#0275d8" StackPane.alignment="TOP_CENTER">
+                           <font>
+                              <Font name="Georgia Bold" size="20.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets top="70.0" />
+                           </StackPane.margin>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <VBox layoutX="2.0" layoutY="123.0" prefHeight="378.0" prefWidth="412.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0">
+                     <children>
+                        <Label text="Item Code">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtCode" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="10.0" layoutY="10.0" text="Item HSN">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtHsn" layoutX="10.0" layoutY="28.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="10.0" layoutY="53.0" text="Item Description">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtDescription" layoutX="10.0" layoutY="71.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="10.0" layoutY="140.0" text="Item Unit">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtUnit" layoutX="10.0" layoutY="157.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <HBox spacing="15.0">
+                           <children>
+                              <Button fx:id="btnAdd" mnemonicParsing="false" stylesheets="@../css/button.css" text="ADD">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="PLUS" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnUpdate" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPDATE">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="EDIT" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnClear" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="RECYCLE" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnHome" mnemonicParsing="false" stylesheets="@../css/button.css" text="HOME">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="HOME" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="20.0" top="30.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="table" layoutX="46.0" layoutY="58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                    <columns>
+                      <TableColumn fx:id="colSrNo" prefWidth="56.79998701810837" text="SR.NO" />
+                      <TableColumn fx:id="colCode" prefWidth="109.60004043579102" text="ITEM CODE" />
+                        <TableColumn fx:id="colHsn" prefWidth="103.19993591308594" text="ITEM HSN" />
+                        <TableColumn fx:id="colDescription" prefWidth="246.39996337890625" text="ITEM DESCRIPTION" />
+                        <TableColumn fx:id="colUnit" prefWidth="75.199951171875" text="UNIT" />
+                    </columns>
+                  </TableView>
+                  <HBox layoutX="14.0" layoutY="27.0" spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                        <TextField fx:id="txtSerachDescription" promptText="Item Description">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtSearchCode" prefHeight="30.0" prefWidth="134.0" promptText="Item Code">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtSearchHsn" prefHeight="30.0" prefWidth="130.0" promptText="Item HSN">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="btnShowAll" mnemonicParsing="false" stylesheets="@../css/button.css" text="SHOW ALL">
+                           <graphic>
+                              <FontAwesomeIcon glyphName="EYE" />
+                           </graphic>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

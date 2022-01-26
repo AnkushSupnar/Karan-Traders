@@ -1,0 +1,40 @@
+.left {
+  -fx-background-color: #ebe8f9;
+}
+.title-pane {
+  -fx-background-color: transparent;
+  -fx-text-fill: #130505;
+}
+.titled-pane > .title {
+  -fx-background-color: #ebe8f9;
+  -fx-text-fill: #130505;
+}
+.menuList {
+  -fx-background-color: #ebe8f9;
+  -fx-border-color: #ebe8f9 !important;
+}
+.titled-pane:focused {
+  -fx-text-fill: white;
+}
+.titled-pane:focused > .title {
+  -fx-background-color: #bbaef7;
+  -fx-text-fill: #ebe8f9;
+}
+
+.button {
+  -fx-background-color: #ebe8f9;
+  -fx-text-fill: #130505;
+}
+.button:hover {
+  /*-fx-background-color : #10165F;*/
+  -fx-background-color: #8aa1e7;
+  -fx-text-fill: #ebe8f9;
+}
+.button:hover .glyph-icon {
+    -fx-fill: #ebe8f9;
+  }
+  
+.button:pressed {
+  -fx-background-color: #ebe8f9;
+  -fx-text-fill: #130505;
+}

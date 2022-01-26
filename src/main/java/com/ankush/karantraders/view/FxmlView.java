@@ -32,9 +32,21 @@ public enum FxmlView {
         }
         @Override
         public String getFxmlFile() {
-            return "/fxml/home/HomePage.fxml";
+            return "/fxml/home/Main.fxml";
         }
-    };
+    },
+    ADDITEM {
+        @Override
+        String getTitle() {
+            return "Home Page"; 
+            //getStringFromResourceBundle("login.title");
+        }
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/create/AddItem.fxml";
+        }
+    }
+    ;
     abstract String getTitle();
     public abstract String getFxmlFile();
     String getStringFromResourceBundle(String key){

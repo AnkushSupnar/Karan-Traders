@@ -42,7 +42,7 @@ public class Main extends Application  {
 	}
 	protected void displayInitialScene() {
 		
-		stageManager.switchScene(FxmlView.LOGIN);
+		stageManager.switchScene(FxmlView.ADDITEM);
 		//stageManager.switchScene(FxmlView.);
 		//stageManager.switchScene(FxmlView.HOME);
 
