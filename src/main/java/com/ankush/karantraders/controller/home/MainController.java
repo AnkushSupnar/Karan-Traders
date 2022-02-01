@@ -27,27 +27,30 @@ public class MainController implements Initializable{
     private StageManager stageManager;
     @Autowired
     private SpringFXMLLoader fxmlLoader;
-    @FXML private Button btnAddCustomer;
-    @FXML private Button btnAddItem;
-    @FXML private Button btnDaillyBilling;
-    @FXML private Button btnDashboard;
-    @FXML private Button btnDeliveryChallan;
-    @FXML private Button btnEditCustomer;
-    @FXML private Button btnEditItem;
-    @FXML private Button btnPayinvoice;
-    @FXML private Button btnPurchaseinvoice;
-    @FXML private Button btnViewBill;
-    @FXML private Button btnViewCUstomer;
-    @FXML private Button btnViewChallan;
-    @FXML private Button btnViewItem;
-    @FXML private Button btnViewinvoice;
+    @FXML private Button btnAddCustomer,btnAddItem,btnDaillyBilling,btnDashboard;
+    @FXML private Button btnDeliveryChallan,btnEditCustomer,btnEditItem,btnPayinvoice,btnPurchaseinvoice,
+    btnViewBill,btnViewCUstomer,btnViewChallan,btnViewItem,btnViewinvoice,btnAddParty,btnEditParty,
+    btnViewParty,btnAddBank,btnEditBank,btnViewBank;
     @FXML private Label lblLogin;
     @FXML private BorderPane rootPane;
     @FXML private AnchorPane centerPane;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnAddItem.setOnAction(e->{
+            centerPane.getChildren().clear();
             centerPane.getChildren().addAll(getNode("/fxml/create/AddItem.fxml"));
+        });
+        btnAddCustomer.setOnAction(e->{
+            centerPane.getChildren().clear();
+            centerPane.getChildren().addAll(getNode("/fxml/create/AddCustomer.fxml"));
+        });
+        btnAddParty.setOnAction(e->{
+            centerPane.getChildren().clear();
+            centerPane.getChildren().addAll(getNode("/fxml/create/PurchaseParty.fxml"));
+        });
+        btnAddBank.setOnAction(e->{
+            centerPane.getChildren().clear();
+            centerPane.getChildren().addAll(getNode("/fxml/create/AddBank.fxml"));
         });
     }
     private Node getNode(String filePath)

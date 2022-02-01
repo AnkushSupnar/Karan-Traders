@@ -33,6 +33,7 @@ public class Main extends Application  {
 	@Override
 	public void start(Stage stage) throws Exception {
 	stageManager  = springContext.getBean(StageManager.class,stage);
+	
 	displayInitialScene();
 	}
 	@Override
@@ -42,7 +43,7 @@ public class Main extends Application  {
 	}
 	protected void displayInitialScene() {
 		
-		stageManager.switchScene(FxmlView.ADDITEM);
+		stageManager.switchScene(FxmlView.PURCHASE);
 		//stageManager.switchScene(FxmlView.);
 		//stageManager.switchScene(FxmlView.HOME);
 

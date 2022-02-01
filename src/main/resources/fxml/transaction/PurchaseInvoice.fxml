@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="685.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.transaction.PurchaseInvoiceController">
+   <children>
+      <StackPane layoutX="200.0" layoutY="23.0" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #2262C6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase Invoice">
+               <font>
+                  <Font name="Georgia" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <Pane layoutX="5.0" layoutY="49.0" prefHeight="94.0" prefWidth="902.0" style="-fx-border-color: #e1e0e7;">
+         <children>
+            <HBox layoutX="5.0" layoutY="49.0" spacing="5.0">
+               <children>
+                  <Label text="Party Name">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtPartyName" prefHeight="26.0" prefWidth="306.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="btnSearch" mnemonicParsing="false" stylesheets="@../css/button.css" text="SEARCH">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SEARCH" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Label layoutX="5.0" layoutY="12.0" text="Invoice No" />
+            <TextField fx:id="txtInvoiceNo" layoutX="71.0" layoutY="9.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="665.0" layoutY="12.0" text="Invoice Date" />
+            <DatePicker fx:id="date" layoutX="746.0" layoutY="9.0" prefHeight="30.0" prefWidth="136.0" promptText="Select Date" />
+         </children>
+      </Pane>
+      <Pane layoutX="5.0" layoutY="146.0" prefHeight="118.0" prefWidth="902.0" style="-fx-border-color: #e1e0e7;">
+         <children>
+            <HBox layoutX="5.0" layoutY="76.0" spacing="10.0">
+               <children>
+                  <Button fx:id="btnAdd" mnemonicParsing="false" stylesheets="@../css/button.css" text="ADD">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="CART_PLUS" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPDATE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="EDIT" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnRemove" mnemonicParsing="false" stylesheets="@../css/button.css" text="REMOVE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="CLOSE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnClear" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="RECYCLE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox layoutX="5.0" layoutY="30.0" spacing="2.0">
+               <children>
+                  <TextField fx:id="txtCode" prefWidth="70.0" promptText="CODE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtHsn" prefWidth="70.0" promptText="HSN">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtDescription" prefHeight="30.0" prefWidth="234.0" promptText="Description">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtQuantity" prefWidth="70.0" promptText="Quantity">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtUnit" prefWidth="70.0" promptText="Unit">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtMrp" prefWidth="70.0" promptText="MRP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtDiscount" prefWidth="70.0" promptText="DIscount">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtRate" prefWidth="70.0" promptText="Rate">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtGst" prefWidth="70.0" promptText="GST">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtAmount" prefWidth="70.0" promptText="Amount">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label layoutX="14.0" layoutY="10.0" text="Item Code" />
+            <Label layoutX="86.0" layoutY="10.0" text="Item HSN" />
+            <Label layoutX="157.0" layoutY="10.0" text="Item Description" />
+            <Label layoutX="467.0" layoutY="10.0" text="UNIT" />
+            <Label layoutX="540.0" layoutY="10.0" text="MRP" />
+            <Label layoutX="614.0" layoutY="10.0" text="Disc %" />
+            <Label layoutX="690.0" layoutY="10.0" text="Rate" />
+            <Label layoutX="759.0" layoutY="10.0" text="GST %" />
+            <Label layoutX="394.0" layoutY="10.0" text="Qty" />
+            <Label layoutX="830.0" layoutY="10.0" text="Amount" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableTr" layoutX="5.0" layoutY="268.0" prefHeight="225.0" prefWidth="902.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="192.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="268.0">
+        <columns>
+          <TableColumn fx:id="colSr" prefWidth="31.200013160705566" text="SR" />
+          <TableColumn fx:id="colCode" prefWidth="78.39999008178711" text="CODE" />
+            <TableColumn fx:id="colDescription" prefWidth="156.8000030517578" text="ITEM DESCRIPTION" />
+            <TableColumn fx:id="colHsn" prefWidth="71.20001220703125" text="HSN" />
+            <TableColumn fx:id="colQty" prefWidth="80.79998779296875" text="QTY" />
+            <TableColumn fx:id="colUnit" prefWidth="36.0" text="UNIT" />
+            <TableColumn fx:id="colMrp" prefWidth="89.60003662109375" text="MRP" />
+            <TableColumn fx:id="colDiscount" prefWidth="60.79998779296875" text="Disc%" />
+            <TableColumn fx:id="colRate" prefWidth="112.0" text="RATE" />
+            <TableColumn fx:id="colGst" prefWidth="52.79998779296875" text="GST%" />
+            <TableColumn fx:id="colAmount" prefWidth="130.39993896484373" text="AMOUNT" />
+        </columns>
+      </TableView>
+      <Pane layoutX="7.0" layoutY="497.0" prefHeight="187.0" prefWidth="902.0" style="-fx-border-color: #e1e0e7;" AnchorPane.bottomAnchor="0.0">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" text="Net Total" />
+            <Label layoutX="138.0" layoutY="10.0" text="CGST" />
+            <Label layoutX="256.0" layoutY="10.0" text="SGST" />
+            <Label layoutX="383.0" layoutY="10.0" text="Shipping" />
+            <Label layoutX="500.0" layoutY="10.0" text="Packaging" />
+            <Label layoutX="743.0" layoutY="10.0" text="Grand Total" />
+            <Label layoutX="620.0" layoutY="10.0" text="Other" />
+            <HBox layoutX="14.0" layoutY="32.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="txtNetTotal" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtCGst" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtSGst" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtShiping" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtPackaging" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtOther" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtGrandTotal" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label layoutX="14.0" layoutY="71.0" text="Select Bank Name" />
+            <ComboBox fx:id="cmbBank" layoutX="14.0" layoutY="91.0" prefHeight="25.0" prefWidth="234.0" promptText="Select Bank Name" stylesheets="@../css/combobox.css" />
+            <Label layoutX="262.0" layoutY="72.0" text="Paid Amount" />
+            <TextField fx:id="txtPaid" alignment="CENTER_RIGHT" layoutX="256.0" layoutY="88.0" prefHeight="30.0" prefWidth="136.0" promptText="Description" text="0.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </TextField>
+            <HBox layoutX="12.0" layoutY="140.0" spacing="10.0">
+               <children>
+                  <Button fx:id="btnSave" mnemonicParsing="false" stylesheets="@../css/button.css" text="SAVE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnPrint" mnemonicParsing="false" stylesheets="@../css/button.css" text="PRINT">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="PRINT" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnUpdateBill" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPDATE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="EDIT" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnClearBill" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="RECYCLE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnHome" mnemonicParsing="false" stylesheets="@../css/button.css" text="HOME">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="HOME" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
