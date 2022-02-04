@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import com.ankush.karantraders.view.StageManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
 public class PurchaseInvoiceController implements Initializable {
 
     @Autowired
+    @Lazy
     private StageManager stageManager;
 
     @FXML private Button btnAdd,btnClear,btnClearBill,btnHome,btnPrint;

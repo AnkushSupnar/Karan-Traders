@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import java.util.Objects;
 import com.ankush.karantraders.config.SpringFXMLLoader;
 import static org.slf4j.LoggerFactory.getLogger;
+//@Component
 public class StageManager {
     private static final Logger LOG = getLogger(StageManager.class);
     private final Stage primaryStage;
