@@ -29,11 +29,13 @@ public class ItemService {
     public Item getByCode(Long code) {
         return repository.findByCode(code);
     }
-    public List<Item>getByHsn(Long hsn)
-    {
+    public List<Item>getByHsn(Long hsn){
         if(repository.findByHsn(hsn).size()>0)
         return repository.findByHsn(hsn);
         else return null;
+    }
+    public List<String>getAllItemNames(){
+        return repository.findAllItemName();
     }
 
     public int save(Item item) {

@@ -17,4 +17,10 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     Item findByCode(Long code);
 
     List<Item> findByHsn(Long hsn);
+
+    @Query("select i.description from Item i order by i.description")
+    List<String> findAllItemName();
+
+
+
 }

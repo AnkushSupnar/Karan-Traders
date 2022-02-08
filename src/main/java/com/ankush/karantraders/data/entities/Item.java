@@ -20,11 +20,11 @@ import lombok.NoArgsConstructor;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private Long code;
     private Long hsn;
     private String description;
     private String unit;
-
+   
 }

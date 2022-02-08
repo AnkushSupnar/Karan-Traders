@@ -62,7 +62,7 @@ public class AddItemController implements Initializable {
     private AlertNotification alert;
     private SuggestionProvider<String> unitProvider;
     private ObservableList<Item> list = FXCollections.observableArrayList();
-    Long id;
+    Integer id;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -175,7 +175,7 @@ public class AddItemController implements Initializable {
         }
         if(index==-1)
         {
-            item.setId(Long.valueOf(list.size()+1));
+            item.setId(list.size()+1);
             list.add(item);
             table.refresh();
         }
