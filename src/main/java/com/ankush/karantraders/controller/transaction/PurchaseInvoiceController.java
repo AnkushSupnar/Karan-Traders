@@ -6,12 +6,19 @@ import java.util.ResourceBundle;
 import com.ankush.karantraders.data.entities.Item;
 import com.ankush.karantraders.data.entities.ItemStock;
 import com.ankush.karantraders.data.entities.PurchaseParty;
+import com.ankush.karantraders.data.entities.PurchaseTransaction;
 import com.ankush.karantraders.data.service.ItemService;
 import com.ankush.karantraders.data.service.ItemStockService;
 import com.ankush.karantraders.data.service.PurchasePartyService;
 import com.ankush.karantraders.view.AlertNotification;
 import com.ankush.karantraders.view.StageManager;
 
+import impl.org.controlsfx.skin.AutoCompletePopup;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.layout.AnchorPane;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -35,7 +42,7 @@ public class PurchaseInvoiceController implements Initializable {
     @Autowired
     @Lazy
     private StageManager stageManager;
-
+    @FXML private AnchorPane mainPane;
     @FXML private Button btnAdd,btnClear,btnClearBill,btnHome,btnPrint;
     @FXML private Button btnRemove,btnSave,btnSearch,btnUpdate,btnUpdateBill;
     @FXML private ComboBox<String> cmbBank;
@@ -64,10 +71,16 @@ public class PurchaseInvoiceController implements Initializable {
     private SuggestionProvider<String>itemNameProvider;
     private PurchaseParty party;
     private Item item;
+    private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
-        new AutoCompletionTextFieldBinding<>(txtPartyName, partyNameProvider);
+
+        AutoCompletionBinding<String> autoComplete = TextFields.bindAutoCompletion(this.txtPartyName,partyNameProvider);
+        autoComplete.prefWidthProperty().bind(this.txtPartyName.widthProperty());
+
+        //AutoCompletionTextFieldBinding<String> demo = new AutoCompletionTextFieldBinding<>(txtPartyName, partyNameProvider);
+
         itemNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
         new AutoCompletionTextFieldBinding<>(txtDescription,itemNameProvider);
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -113,6 +126,9 @@ public class PurchaseInvoiceController implements Initializable {
                txtQuantity.requestFocus();
            }
        });
+
+
+
        txtQuantity.textProperty().addListener(new ChangeListener<String>() {
            @Override
            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -168,9 +184,64 @@ public class PurchaseInvoiceController implements Initializable {
            txtAmount.requestFocus();
            calculateAmount();
        });
-
+       txtUnit.setOnAction(e->{
+            if(!txtUnit.getText().isEmpty())
+            {
+                txtMrp.requestFocus();
+            }
+        });
+       txtAmount.setOnAction(e->{
+           calculateAmount();
+           btnAdd.fire();
+       });
+       btnAdd.setOnAction(e->add());
 
     }
+
+    private void add() {
+        if(!validateItem()) return;
+        PurchaseTransaction tr = PurchaseTransaction.builder().
+                code(Integer.parseInt(txtCode.getText()))
+                .description(txtDescription.getText())
+                .amount(Float.parseFloat(txtAmount.getText()))
+                .hsn(Integer.parseInt(txtHsn.getText()))
+                .discount(Float.parseFloat(txtDiscount.getText()))
+                .gst(Float.parseFloat(txtGst.getText()))
+                .unit(txtUnit.getText())
+                .mrp(Float.parseFloat(txtMrp.getText()))
+                .quantity(Float.parseFloat(txtQuantity.getText()))
+                .rate(Float.parseFloat(txtRate.getText()))
+                .build();
+        System.out.println(tr);
+        addInTrList(tr);
+    }
+
+    private void addInTrList(PurchaseTransaction tr) {
+        int index=-1;
+        for(PurchaseTransaction t:trList)
+        {
+
+        }
+    }
+
+    private boolean validateItem() {
+        if (txtDescription.getText().isEmpty()) {
+            alert.showError("Enter Item Description");
+            return false;
+        }
+        if (txtUnit.getText().isEmpty())
+        {
+            alert.showError("Enter Unit");
+            return false;
+        }
+        if(txtAmount.getText().equals(""+0.0f) || txtAmount.getText().isEmpty())
+        {
+            alert.showError("Select Or Emter Item again!!!");
+            return false;
+        }
+        return true;
+    }
+
     private void findByCode(Long code) {
          item  = itemService.getByCode(code);
         System.out.println("Got Item =>"+item);
@@ -205,12 +276,14 @@ public class PurchaseInvoiceController implements Initializable {
             txtPartyName.requestFocus();
             return;
         }
-        if(partyService.getPartyByName(txtPartyName.getText()).size()>0)
-        party = partyService.getPartyByName(txtPartyName.getText()).get(0);
-        else
-        alert.showError("Party Not Found");
-
-
+        if(partyService.getPartyByName(txtPartyName.getText()).size()>0) {
+            party = partyService.getPartyByName(txtPartyName.getText()).get(0);
+            btnSearch.setStyle("-fx-background-color: green;-fx-text-fill:white ");
+        }
+        else {
+            alert.showError("Party Not Found");
+           btnSearch.setStyle("-fx-background-color: red; -fx-text-fill:white ");
+        }
     }
     private void calculateAmount()
     {
@@ -229,5 +302,6 @@ public class PurchaseInvoiceController implements Initializable {
         );
 
     }
+
     
 }
