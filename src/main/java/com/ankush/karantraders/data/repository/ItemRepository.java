@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     List<String>getItemUnitList();
 
     List<Item> findByDescription(String description);
-    Item findByCode(Long code);
+    Item findByCode(String code);
 
     List<Item> findByHsn(Long hsn);
 

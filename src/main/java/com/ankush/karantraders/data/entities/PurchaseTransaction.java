@@ -8,10 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="purchasetransaction")
@@ -24,7 +21,7 @@ public class PurchaseTransaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer code;
+    private String code;
     private String description;
     private Integer hsn;
     private Float quantity;
@@ -37,5 +34,6 @@ public class PurchaseTransaction {
 
     @ManyToOne
     @JoinColumn(name="invoiceno")
+    @ToString.Exclude
     private PurchaseInvoice invoice;
 }

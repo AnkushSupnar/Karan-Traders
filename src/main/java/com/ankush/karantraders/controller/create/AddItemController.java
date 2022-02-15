@@ -107,7 +107,7 @@ public class AddItemController implements Initializable {
         });
         txtSearchCode.setOnAction(e->{
             list.clear();
-            list.add(itemService.getByCode(Long.parseLong(txtSearchCode.getText())));
+            list.add(itemService.getByCode(txtSearchCode.getText()));
         });
         txtSearchHsn.setOnAction(e->{
             list.clear();
@@ -141,7 +141,7 @@ public class AddItemController implements Initializable {
         if (!validate())
             return;
         Item item = Item.builder()
-                .code(Long.parseLong(txtCode.getText()))
+                .code(txtCode.getText())
                 .description(txtDescription.getText().trim())
                 .hsn(Long.parseLong(txtHsn.getText()))
                 .unit(txtUnit.getText())
@@ -223,7 +223,7 @@ public class AddItemController implements Initializable {
             txtDescription.requestFocus();
             return false;
         }
-        if(id==null && itemService.getByCode(Long.parseLong(txtCode.getText()))!=null)
+        if(id==null && itemService.getByCode(txtCode.getText())!=null)
         {
             alert.showError("This Item Code Is Already Exist");
             txtCode.requestFocus();

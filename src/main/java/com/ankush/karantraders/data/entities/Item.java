@@ -22,7 +22,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Long code;
+    private String code;
     private Long hsn;
     private String description;
     private String unit;

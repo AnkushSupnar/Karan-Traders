@@ -26,7 +26,7 @@ public class ItemService {
         return repository.findByDescription(description).get(0);
         else return null;
     }
-    public Item getByCode(Long code) {
+    public Item getByCode(String code) {
         return repository.findByCode(code);
     }
     public List<Item>getByHsn(Long hsn){

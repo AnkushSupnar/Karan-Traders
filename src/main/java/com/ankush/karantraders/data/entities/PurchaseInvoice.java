@@ -44,8 +44,11 @@ public class PurchaseInvoice {
     @Column(name="nettotal")
     private Double nettotal;
 
-    @Column(name="cgst")
+    @Column(name="sgst")
     private Double sgst;
+
+    @Column(name="cgst")
+    private Double cgst;
 
     @Column(name="shiping")
     private Double shiping;

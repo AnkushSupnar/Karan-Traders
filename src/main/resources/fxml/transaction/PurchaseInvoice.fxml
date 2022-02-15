@@ -183,45 +183,50 @@
       <Pane layoutX="7.0" layoutY="497.0" prefHeight="187.0" prefWidth="902.0" style="-fx-border-color: #e1e0e7;" AnchorPane.bottomAnchor="0.0">
          <children>
             <Label layoutX="14.0" layoutY="10.0" text="Net Total" />
-            <Label layoutX="138.0" layoutY="10.0" text="CGST" />
-            <Label layoutX="256.0" layoutY="10.0" text="SGST" />
-            <Label layoutX="383.0" layoutY="10.0" text="Shipping" />
-            <Label layoutX="500.0" layoutY="10.0" text="Packaging" />
-            <Label layoutX="743.0" layoutY="10.0" text="Grand Total" />
-            <Label layoutX="620.0" layoutY="10.0" text="Other" />
-            <HBox layoutX="14.0" layoutY="32.0" spacing="10.0">
+            <Label layoutX="224.0" layoutY="10.0" text="CGST" />
+            <Label layoutX="331.0" layoutY="10.0" text="SGST" />
+            <Label layoutX="438.0" layoutY="10.0" text="Shipping" />
+            <Label layoutX="541.0" layoutY="10.0" text="Packaging" />
+            <Label layoutX="752.0" layoutY="10.0" text="Grand Total" />
+            <Label layoutX="645.0" layoutY="10.0" text="Other" />
+            <HBox layoutX="14.0" layoutY="32.0" spacing="5.0">
                <children>
-                  <TextField fx:id="txtNetTotal" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtNetTotal" alignment="CENTER_RIGHT" editable="false" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtCGst" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtDiscountTotal" alignment="CENTER_RIGHT" editable="false" layoutX="700.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtSGst" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtCGst" alignment="CENTER_RIGHT" editable="false" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtShiping" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtSGst" alignment="CENTER_RIGHT" editable="false" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtPackaging" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtShiping" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtOther" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtPackaging" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtGrandTotal" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="110.0" promptText="Description" text="0.0">
+                  <TextField fx:id="txtOther" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtGrandTotal" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="100.0" promptText="Description" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -280,6 +285,7 @@
                   </Button>
                </children>
             </HBox>
+            <Label layoutX="120.0" layoutY="10.0" text="Discount" />
          </children>
       </Pane>
    </children>
