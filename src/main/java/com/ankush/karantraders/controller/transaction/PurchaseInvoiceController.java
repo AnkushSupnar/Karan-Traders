@@ -1,17 +1,17 @@
 package com.ankush.karantraders.controller.transaction;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.ankush.karantraders.data.entities.*;
-import com.ankush.karantraders.data.service.BankService;
-import com.ankush.karantraders.data.service.ItemService;
-import com.ankush.karantraders.data.service.ItemStockService;
-import com.ankush.karantraders.data.service.PurchasePartyService;
+import com.ankush.karantraders.data.service.*;
 import com.ankush.karantraders.view.AlertNotification;
 import com.ankush.karantraders.view.StageManager;
 
 import impl.org.controlsfx.skin.AutoCompletePopup;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
@@ -62,17 +62,30 @@ public class PurchaseInvoiceController implements Initializable {
     @FXML private TextField txtQuantity,txtRate,txtSGst,txtShiping,txtUnit;
     @FXML private TextField txtDiscountTotal;
 
+    @FXML private TableView<PurchaseInvoice> tableBill;
+    @FXML private TableColumn<PurchaseInvoice, String> colPartyName;
+    @FXML private TableColumn<?, ?> colPaid;
+    @FXML private TableColumn<?, ?> colInvoiceNo;
+    @FXML private TableColumn<?, ?> colId;
+    @FXML private TableColumn<?, ?> colDate;
+    @FXML private TableColumn<?, ?> colBillAmount;
+
+
+
     @Autowired
     private PurchasePartyService partyService;
     @Autowired AlertNotification alert;
     @Autowired private ItemService itemService;
     @Autowired private ItemStockService stockService;
     @Autowired private BankService bankService;
+    @Autowired private PurchaseInvoiceService purchaseService;
+
     private SuggestionProvider<String>partyNameProvider;
     private SuggestionProvider<String>itemNameProvider;
     private PurchaseParty party;
     private Item item;
     private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
+    private ObservableList<PurchaseInvoice>billList = FXCollections.observableArrayList();
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
@@ -96,14 +109,43 @@ public class PurchaseInvoiceController implements Initializable {
         colSr.setCellValueFactory(new PropertyValueFactory<>("id"));
         colUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         tableTr.setItems(trList);
+
+        colPartyName.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getParty().getName()));
+        colPaid.setCellValueFactory(new PropertyValueFactory<>("paid"));
+        colInvoiceNo.setCellValueFactory(new PropertyValueFactory<>("invoiceno"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colBillAmount.setCellValueFactory(new PropertyValueFactory<>("grand"));
+        billList.addAll(purchaseService.getAllBill());
+        tableBill.setItems(billList);
+
         btnSearch.setOnAction(e->searchParty());
         setTextProperties();
         btnAdd.setOnAction(e->add());
         btnUpdate.setOnAction(e->update());
         btnRemove.setOnAction(e->remove());
         btnSave.setOnAction(e->save());
+        btnClearBill.setOnAction(e->clearBill());
 
 
+    }
+
+    private void clearBill() {
+        trList.clear();
+        txtInvoiceNo.setText("");
+        txtNetTotal.setText(""+0.0f);
+        txtDiscountTotal.setText(""+0.0f);
+        txtCGst.setText(""+0.0f);
+        txtSGst.setText(""+0.0f);
+        txtShiping.setText(""+0.0f);
+        txtPackaging.setText(""+0.0f);
+        txtOther.setText(""+0.0f);
+        calculateGrandTotal();
+        party = null;
+        date.setValue(LocalDate.now());
+        cmbBank.getSelectionModel().clearSelection();
+        txtPaid.setText(""+0.0f);
+        txtPartyName.setText("");
     }
 
     private void save() {
@@ -112,6 +154,7 @@ public class PurchaseInvoiceController implements Initializable {
         PurchaseInvoice invoice = PurchaseInvoice.builder()
                 .date(date.getValue())
                 .bank(bankService.getByName(cmbBank.getValue()))
+                .party(party)
                 .invoiceno(txtInvoiceNo.getText())
                 .grand(Double.parseDouble(txtGrandTotal.getText()))
                 .nettotal(Double.parseDouble(txtNetTotal.getText()))
@@ -122,15 +165,46 @@ public class PurchaseInvoiceController implements Initializable {
                 .cgst(Double.parseDouble(txtCGst.getText()))
                 .shiping(Double.parseDouble(txtShiping.getText()))
                 .build();
-
         for(PurchaseTransaction tr:trList){
             tr.setId(null);
             tr.setInvoice(invoice);
             invoice.getTransaction().add(tr);
         }
         System.out.println(invoice);
+        int flag = purchaseService.savePurchaseInvoice(invoice);
+        if(flag==1)
+        {
+            alert.showSuccess("Purchase Invoice Saved Success");
+            addInStock(invoice.getTransaction());
+        }
+    }
+
+    private void addInStock(List<PurchaseTransaction> transaction) {
+        for(PurchaseTransaction tr:transaction)
+        {
+            Item item =itemService.getByCodeAndDescription(tr.getCode(),tr.getDescription());
+            if(item==null) {
+                item = Item.builder()
+                        .code(tr.getCode())
+                        .hsn(tr.getHsn())
+                        .description(tr.getDescription())
+                        .unit(tr.getUnit())
+                        .build();
+                itemService.save(item);
+            }
+            ItemStock stock = ItemStock.builder()
+                    .gst(tr.getGst())
+                    .discount(tr.getDiscount())
+                    .mrp(tr.getMrp())
+                    .quantity(tr.getQuantity())
+                    .rate(tr.getRate())
+                    .item(item).build();
+
+            stockService.save(stock);
 
 
+
+        }
     }
 
     private boolean validateBill() {
@@ -168,7 +242,6 @@ public class PurchaseInvoiceController implements Initializable {
         }
         return true;
     }
-
     private void remove() {
         if (tableTr.getSelectionModel().getSelectedItem()!=null)
         {
@@ -189,7 +262,6 @@ public class PurchaseInvoiceController implements Initializable {
             calculateGrandTotal();
         }
     }
-
     private void update() {
         if(tableTr.getSelectionModel().getSelectedItem()!=null)
         {
@@ -206,7 +278,6 @@ public class PurchaseInvoiceController implements Initializable {
             txtAmount.setText(String.valueOf(tr.getAmount()));
         }
     }
-
     private void setTextProperties() {
         
         txtCode.textProperty().addListener(new ChangeListener<String>() {
@@ -357,7 +428,7 @@ public class PurchaseInvoiceController implements Initializable {
                 code(txtCode.getText())
                 .description(txtDescription.getText().trim())
                 .amount(Float.parseFloat(txtAmount.getText()))
-                .hsn(Integer.parseInt(txtHsn.getText()))
+                .hsn(Long.parseLong(txtHsn.getText()))
                 .discount(Float.parseFloat(txtDiscount.getText()))
                 .gst(Float.parseFloat(txtGst.getText()))
                 .unit(txtUnit.getText())
@@ -403,6 +474,7 @@ public class PurchaseInvoiceController implements Initializable {
         }
         else
         {
+
             trList.get(index).setQuantity(trList.get(index).getQuantity()+tr.getQuantity());
             trList.get(index).setAmount(trList.get(index).getAmount()+tr.getAmount());
             tableTr.refresh();

@@ -21,6 +21,8 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     @Query("select i.description from Item i order by i.description")
     List<String> findAllItemName();
 
+    Item findByCodeAndDescription(String code, String description);
+
 
 
 }

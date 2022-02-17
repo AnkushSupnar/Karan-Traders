@@ -38,6 +38,11 @@ public class ItemService {
         return repository.findAllItemName();
     }
 
+    public Item getByCodeAndDescription(String code, String description)
+    {
+        return repository.findByCodeAndDescription(code,description);
+    }
+
     public int save(Item item) {
         if (item.getId() == null) {
             repository.save(item);

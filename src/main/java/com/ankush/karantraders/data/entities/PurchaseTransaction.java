@@ -23,7 +23,7 @@ public class PurchaseTransaction {
 
     private String code;
     private String description;
-    private Integer hsn;
+    private Long hsn;
     private Float quantity;
     private String unit;
     private Float mrp;
