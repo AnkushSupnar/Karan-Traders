@@ -30,4 +30,10 @@ public class ItemStockService {
             return 2;
         }
     }
+    public void reduceStock(ItemStock stock)
+    {
+        ItemStock oldStock = getById(stock.getId());
+        oldStock.setQuantity(oldStock.getQuantity()-stock.getQuantity());
+        repository.save(oldStock);
+    }
 }

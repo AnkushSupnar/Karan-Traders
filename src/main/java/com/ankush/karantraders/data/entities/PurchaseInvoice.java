@@ -44,6 +44,9 @@ public class PurchaseInvoice {
     @Column(name="nettotal")
     private Double nettotal;
 
+    @Column(name="dicount")
+    private Double discount;
+
     @Column(name="sgst")
     private Double sgst;
 

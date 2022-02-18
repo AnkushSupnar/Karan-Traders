@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
+import net.bytebuddy.asm.Advice;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,11 @@ public class PurchaseInvoiceController implements Initializable {
     @FXML private TableColumn<?, ?> colDate;
     @FXML private TableColumn<?, ?> colBillAmount;
 
+    @FXML private Button btnSearchAll;
+    @FXML private DatePicker dateSearch;
+    @FXML private TextField txtSearchInvoice;
+    @FXML private TextField txtSearchInvoiceno;
+    @FXML private TextField txtSearchParty;
 
 
     @Autowired
@@ -86,12 +92,18 @@ public class PurchaseInvoiceController implements Initializable {
     private Item item;
     private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
     private ObservableList<PurchaseInvoice>billList = FXCollections.observableArrayList();
+    Long id;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        id=null;
         partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
 
         AutoCompletionBinding<String> autoComplete = TextFields.bindAutoCompletion(this.txtPartyName,partyNameProvider);
         autoComplete.prefWidthProperty().bind(this.txtPartyName.widthProperty());
+
+        AutoCompletionBinding<String> autoCompleteParty = TextFields.bindAutoCompletion(this.txtSearchParty,partyNameProvider);
+        autoCompleteParty.prefWidthProperty().bind(this.txtSearchParty.widthProperty());
+
 
         //AutoCompletionTextFieldBinding<String> demo = new AutoCompletionTextFieldBinding<>(txtPartyName, partyNameProvider);
 
@@ -116,7 +128,8 @@ public class PurchaseInvoiceController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colBillAmount.setCellValueFactory(new PropertyValueFactory<>("grand"));
-        billList.addAll(purchaseService.getAllBill());
+        dateSearch.setValue(LocalDate.now());
+        billList.addAll(purchaseService.getByDate(dateSearch.getValue()));
         tableBill.setItems(billList);
 
         btnSearch.setOnAction(e->searchParty());
@@ -126,11 +139,67 @@ public class PurchaseInvoiceController implements Initializable {
         btnRemove.setOnAction(e->remove());
         btnSave.setOnAction(e->save());
         btnClearBill.setOnAction(e->clearBill());
+        btnUpdateBill.setOnAction(e->updateBIll());
 
+        txtSearchParty.setOnAction(e->{
+            if(!txtSearchParty.getText().isEmpty()){
+                    billList.clear();
+                    billList.addAll(purchaseService.getByPartyName(txtSearchParty.getText()));
+            }
+        });
+        txtSearchInvoice.setOnAction(e->{
+            if(purchaseService.getById(Long.parseLong(txtSearchInvoice.getText()))!=null) {
+                billList.clear();
+                billList.add(purchaseService.getById(Long.parseLong(txtSearchInvoice.getText())));
+            }
+            else{
+                alert.showError("No Invoice found with id "+txtSearchInvoice.getText());
+            }
+        });
+        txtSearchInvoiceno.setOnAction(e->{
+            if(!txtSearchInvoiceno.getText().isEmpty())
+            {
+                billList.clear();
+                billList.addAll(purchaseService.getByInvoiceNo(txtSearchInvoiceno.getText()));
+            }
+        });
+        btnSearchAll.setOnAction(e->{
+            billList.clear();
+            billList.addAll(purchaseService.getAllBill());
+        });
+        dateSearch.setOnAction(e->{
+            if(dateSearch.getValue()!=null){
+                billList.clear();
+                billList.addAll(purchaseService.getByDate(dateSearch.getValue()));
+            }
+        });
 
     }
+    private void updateBIll() {
+        PurchaseInvoice invoice = tableBill.getSelectionModel().getSelectedItem();
+      if(invoice!=null){
+            date.setValue(invoice.getDate());
+            txtInvoiceNo.setText(invoice.getInvoiceno());
+            txtPartyName.setText(invoice.getParty().getName());
+            btnSearch.fire();
 
+            trList.clear();
+            trList.addAll(invoice.getTransaction());
+        txtNetTotal.setText(String.valueOf(invoice.getNettotal()));
+        txtDiscountTotal.setText(String.valueOf(invoice.getDiscount()));
+        txtCGst.setText(String.valueOf(invoice.getCgst()));
+        txtSGst.setText(String.valueOf(invoice.getSgst()));
+        txtShiping.setText(String.valueOf(invoice.getShiping()));
+        txtPackaging.setText(String.valueOf(invoice.getPackaging()));
+        txtOther.setText(String.valueOf(invoice.getOther()));
+        calculateGrandTotal();
+        txtPaid.setText(String.valueOf(invoice.getPaid()));
+        cmbBank.setValue(invoice.getBank().getName());
+        id = invoice.getId();
+      }
+    }
     private void clearBill() {
+        id=null;
         trList.clear();
         txtInvoiceNo.setText("");
         txtNetTotal.setText(""+0.0f);
@@ -147,9 +216,11 @@ public class PurchaseInvoiceController implements Initializable {
         txtPaid.setText(""+0.0f);
         txtPartyName.setText("");
     }
-
     private void save() {
         if(!validateBill()) return;
+
+        PurchaseInvoice oldInvoice = null;
+        int stockFlag=1;
 
         PurchaseInvoice invoice = PurchaseInvoice.builder()
                 .date(date.getValue())
@@ -163,22 +234,59 @@ public class PurchaseInvoiceController implements Initializable {
                 .paid(Double.parseDouble(txtPaid.getText()))
                 .sgst(Double.parseDouble(txtSGst.getText()))
                 .cgst(Double.parseDouble(txtCGst.getText()))
+                .discount(Double.parseDouble(txtDiscountTotal.getText()))
                 .shiping(Double.parseDouble(txtShiping.getText()))
                 .build();
+        if(id!=null)
+        {
+            oldInvoice = purchaseService.getById(id);
+            invoice.setId(id);
+        }
         for(PurchaseTransaction tr:trList){
+            if(oldInvoice!=null && stockService.getByItemId(itemService.getByCodeAndDescription(tr.getCode(),tr.getDescription()).getId()).getQuantity()<tr.getQuantity())
+            {
+                stockFlag=0;
+            }
             tr.setId(null);
             tr.setInvoice(invoice);
             invoice.getTransaction().add(tr);
         }
-        System.out.println(invoice);
+
+        if(oldInvoice!=null && getStockFlag(oldInvoice)==0)
+        {
+            alert.showError("You can't edit this invoice! Item Already Sold");
+            return;
+        }
+
         int flag = purchaseService.savePurchaseInvoice(invoice);
         if(flag==1)
         {
             alert.showSuccess("Purchase Invoice Saved Success");
             addInStock(invoice.getTransaction());
+            billList.clear();
+            billList.addAll(purchaseService.getByDate(LocalDate.now()));
+            clearBill();
+        }
+        else if(flag==2)
+        {
+            //reduce old stock
+            reduceInStock(oldInvoice.getTransaction());
+            addInStock(invoice.getTransaction());
+            clearBill();
+            billList.clear();
+            billList.addAll(purchaseService.getByDate(LocalDate.now()));
+            alert.showSuccess("Invoice Updated Success");
         }
     }
+    private int getStockFlag(PurchaseInvoice oldInvoice) {
 
+        for(PurchaseTransaction tr: oldInvoice.getTransaction()) {
+            if (stockService.getByItemId(itemService.getByCodeAndDescription(tr.getCode(), tr.getDescription()).getId()).getQuantity() < tr.getQuantity()) {
+                return 0;
+            }
+        }
+        return 1;
+    }
     private void addInStock(List<PurchaseTransaction> transaction) {
         for(PurchaseTransaction tr:transaction)
         {
@@ -199,14 +307,18 @@ public class PurchaseInvoiceController implements Initializable {
                     .quantity(tr.getQuantity())
                     .rate(tr.getRate())
                     .item(item).build();
-
             stockService.save(stock);
-
-
-
         }
     }
-
+    private void reduceInStock(List<PurchaseTransaction> transaction) {
+        for(PurchaseTransaction tr:transaction)
+        {
+            Item item =itemService.getByCodeAndDescription(tr.getCode(),tr.getDescription());
+            ItemStock stock = stockService.getByItemId(item.getId());
+            stock.setQuantity(tr.getQuantity());
+            stockService.reduceStock(stock);
+        }
+    }
     private boolean validateBill() {
         if(date.getValue()==null)
         {
@@ -418,12 +530,20 @@ public class PurchaseInvoiceController implements Initializable {
         txtPaid.setOnAction(e->{
             btnSave.requestFocus();
         });
+        txtSearchInvoice.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,6})?"))
+                    txtSearchInvoice.setText(oldValue);
+            }
+        });
         cmbBank.getItems().addAll(bankService.getAllBankNames());
        btnAdd.setOnAction(e->add());
        btnClear.setOnAction(e->clear());
     }
     private void add() {
         if(!validateItem()) return;
+        calculateAmount();
         PurchaseTransaction tr = PurchaseTransaction.builder().
                 code(txtCode.getText())
                 .description(txtDescription.getText().trim())
@@ -436,7 +556,7 @@ public class PurchaseInvoiceController implements Initializable {
                 .quantity(Float.parseFloat(txtQuantity.getText()))
                 .rate(Float.parseFloat(txtRate.getText()))
                 .build();
-        System.out.println(tr);
+
         addInTrList(tr);
         clear();
     }
@@ -519,7 +639,7 @@ public class PurchaseInvoiceController implements Initializable {
     }
     private void findByCode(String code) {
          item  = itemService.getByCode(code);
-        System.out.println("Got Item =>"+item);
+
     }
     private void setItem(Item item){
         if(item!=null){
@@ -536,13 +656,13 @@ public class PurchaseInvoiceController implements Initializable {
             }
         }
         else{
-            txtDescription.setText("");
-            txtHsn.setText("");
-            txtUnit.setText("");
-            txtMrp.setText("");
-            txtDiscount.setText("");
-            txtRate.setText("");
-            txtGst.setText("");
+//            txtDescription.setText("");
+//            txtHsn.setText("");
+//            txtUnit.setText("");
+//            txtMrp.setText("");
+//            txtDiscount.setText("");
+//            txtRate.setText("");
+//            txtGst.setText("");
         }
     }
     private void searchParty() {
@@ -568,13 +688,11 @@ public class PurchaseInvoiceController implements Initializable {
         float amount = Float.parseFloat(txtQuantity.getText())*Float.parseFloat(txtRate.getText());
         float gst =(amount*( Float.parseFloat(txtGst.getText())/100));
         float disc = (amount*(Float.parseFloat(txtDiscount.getText())/100));
-        System.out.println("Amount="+amount+"\n gst= "+gst+"\ndisc = "+disc);
         txtAmount.setText(
                 String.valueOf(
                         amount+gst-disc
                 )
         );
-
     }
     private void calculateGrandTotal(){
         if(txtNetTotal.getText().isEmpty()) txtNetTotal.setText(""+0.0f);
