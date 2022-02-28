@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ItemStockRepository extends JpaRepository<ItemStock,Long>{
     ItemStock findByItem_Id(Integer id);
 
+
+
 }

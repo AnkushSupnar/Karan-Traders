@@ -14,8 +14,13 @@
     -fx-background-color:#94B3FD;
 }
 .button:hover .glyph-icon{
+
     -fx-fill: white;
 }
+.button:hover .mfx-font-icon{
+    -mfx-color:white;
+}
+
 .button:pressed{
     -fx-text-fill: white;
     -fx-background-color: #2262C6;

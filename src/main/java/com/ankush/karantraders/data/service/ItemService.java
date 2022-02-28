@@ -37,7 +37,6 @@ public class ItemService {
     public List<String>getAllItemNames(){
         return repository.findAllItemName();
     }
-
     public Item getByCodeAndDescription(String code, String description)
     {
         return repository.findByCodeAndDescription(code,description);
@@ -51,5 +50,9 @@ public class ItemService {
             repository.save(item);
             return 2;
         }
+    }
+    public List<String>getUnitNames()
+    {
+        return repository.getUnits();
     }
 }

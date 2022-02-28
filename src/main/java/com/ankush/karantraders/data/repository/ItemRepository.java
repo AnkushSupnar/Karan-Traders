@@ -23,6 +23,9 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
     Item findByCodeAndDescription(String code, String description);
 
+    @Query("select DISTINCT(unit) from Item")
+    List<String>getUnits();
+
 
 
 }
