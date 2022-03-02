@@ -72,7 +72,7 @@
                               <FontAwesomeIcon fill="#2262c6" glyphName="INFO" />
                            </graphic>
                         </Label>
-                        <TextArea fx:id="txtCustomerInfo" layoutX="5.0" layoutY="88.0" prefHeight="78.0" prefWidth="565.0">
+                        <TextArea fx:id="txtCustomerInfo" editable="false" layoutX="5.0" layoutY="88.0" prefHeight="78.0" prefWidth="565.0">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></TextArea>

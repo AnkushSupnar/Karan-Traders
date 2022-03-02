@@ -1,14 +1,13 @@
 package com.ankush.karantraders.controller.transaction;
 
-import com.ankush.karantraders.data.entities.Customer;
-import com.ankush.karantraders.data.entities.Item;
-import com.ankush.karantraders.data.entities.ItemStock;
-import com.ankush.karantraders.data.entities.Transaction;
+import com.ankush.karantraders.config.SpringFXMLLoader;
+import com.ankush.karantraders.data.entities.*;
 import com.ankush.karantraders.data.service.*;
 import com.ankush.karantraders.view.AlertNotification;
 import com.ankush.karantraders.view.StageManager;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import net.bytebuddy.asm.Advice;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 import org.hibernate.type.FloatType;
@@ -29,18 +29,20 @@ import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
 import javafx.fxml.FXML;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
 public class BillingController implements Initializable {
-   @Autowired
-   @Lazy
-   private StageManager stageManager;
-   @FXML private TextField txtCustomerName,txtDescription;
-
-
-    @FXML private TableColumn<?, ?> ColGrand;
+    @Autowired
+    @Lazy
+    private StageManager stageManager;
+    @Autowired
+    private SpringFXMLLoader fxmlLoader;
+    @FXML private TextField txtCustomerName,txtDescription;
     @FXML private Button btnAdd;
     @FXML private Button btnAddCustomer;
     @FXML private Button btnClear;
@@ -60,13 +62,14 @@ public class BillingController implements Initializable {
     @FXML private TableColumn<Transaction,String> colUnit;
     @FXML private TableColumn<Transaction,Float> colGst;
 
-    @FXML private TableColumn<?, ?> colBill;
-    @FXML private TableColumn<?, ?> colCustomerName;
-    @FXML private TableColumn<?, ?> colDate;
-    @FXML private TableColumn<?, ?> colPaid;
-    @FXML private DatePicker date,dateSearch;
-    @FXML private TableView<?> tableBill;
+    @FXML private TableView<Bill> tableBill;
+    @FXML private TableColumn<Bill,Long> colBill;
+    @FXML private TableColumn<Bill,String> colCustomerName;
+    @FXML private TableColumn<Bill, LocalDate> colDate;
+    @FXML private TableColumn<Bill,Float> colPaid;
+    @FXML private TableColumn<Bill,Float> ColGrand;
 
+    @FXML private DatePicker date,dateSearch;
     @FXML private MFXTextField txtAmount,txtCode;
     @FXML private TextArea txtCustomerInfo;
     @FXML private MFXTextField txtDiscount,txtGrandTotal,txtGst,txtNetTotal,txtOther,txtPaid,txtQuantity,txtRate;
@@ -79,22 +82,28 @@ public class BillingController implements Initializable {
     @Autowired private BankService bankService;
     @Autowired private ItemService itemService;
     @Autowired private AlertNotification alert;
+    @Autowired private BillService billService;
 
     private SuggestionProvider<String>customerNameProvider;
 
     private SuggestionProvider<String>itemNameProvider;
     private ObservableList<List>bankNameList = FXCollections.observableArrayList();
     private ObservableList<Transaction>trList = FXCollections.observableArrayList();
+    private ObservableList<Bill>billList = FXCollections.observableArrayList();
     private Customer customer;
     private Item item;
     private ItemStock stock;
+    private Long billno;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        setProperties();
 
+
     }
     private void setProperties()
     {
+        date.setValue(LocalDate.now());
+        billno=null;
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -103,13 +112,25 @@ public class BillingController implements Initializable {
         colSr.setCellValueFactory(new PropertyValueFactory<>("id"));
         colUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         colGst.setCellValueFactory(new PropertyValueFactory<>("gst"));
-     tableTr.setItems(trList);
+        tableTr.setItems(trList);
 
+        colBill.setCellValueFactory(new PropertyValueFactory<>("billno"));
+        colCustomerName.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getCustomer().getCustomername()));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colPaid.setCellValueFactory(new PropertyValueFactory<>("paid"));
+        ColGrand.setCellValueFactory(new PropertyValueFactory<>("grand"));
+        billList.addAll(billService.getAllBills());
+        tableBill.setItems(billList);
      cmbBank.getItems().addAll(bankService.getAllBankNames());
      customerNameProvider = SuggestionProvider.create(customerService.getAllCustomerNames());
      TextFields.bindAutoCompletion(txtCustomerName,customerNameProvider);
      TextField text = txtCustomerName;
      TextFields.bindAutoCompletion(text,customerNameProvider);
+     txtCustomerName.setOnAction(e->{
+         if(!txtCustomerName.getText().isEmpty()){
+             btnSearch.requestFocus();
+         }
+     });
      btnSearch.setOnAction(e->searchCustomer());
 
      cmbUnit.getItems().addAll(itemService.getUnitNames());
@@ -135,7 +156,6 @@ public class BillingController implements Initializable {
          if(!txtCode.getText().isEmpty())
              txtDescription.requestFocus();
      });
-
      txtDescription.setOnAction(e->{
          if(!txtDescription.getText().isEmpty())
          {
@@ -156,8 +176,10 @@ public class BillingController implements Initializable {
          }
      });
      txtQuantity.setOnAction(e->{
-         calculateAmount();
-         txtGst.requestFocus();
+         if(!txtQuantity.getText().isEmpty() && !txtQuantity.getText().equalsIgnoreCase(""+0.0f)) {
+             calculateAmount();
+             txtGst.requestFocus();
+         }
      });
      txtGst.textProperty().addListener(new ChangeListener<String>() {
          @Override
@@ -220,13 +242,150 @@ public class BillingController implements Initializable {
              txtGrandTotal.requestFocus();
          }
      });
+     chkGst.setOnAction(e->{
+         if(chkGst.isSelected())
+         {
+             if(txtGst.getText().isEmpty() || txtGst.getText().equalsIgnoreCase(""+0.0f)){
+                 alert.showError("Enter Gst Rate in percentage");
+                 txtGst.requestFocus();
+                 chkGst.setSelected(false);
+             } else{
+                 txtGst.setEditable(false);
+             }
+         }else{
+             txtGst.setEditable(true);
+         }
+
+     });
      btnAdd.setOnAction(e->add());
      btnClear.setOnAction(e->clear());
      btnUpdate.setOnAction(e->update());
      btnRemove.setOnAction(e->remove());
 
+     btnSave.setOnAction(e->save());
+     btnClearBill.setOnAction(e->clearBill());
+     btnUpdateBill.setOnAction(e->updateBill());
+     btnAddCustomer.setOnAction(e->addCustomer());
     }
 
+
+    private void clearBill() {
+        billno = null;
+        customer=null;
+        item=null;
+        setCustomer(null);
+        trList.clear();
+        txtNetTotal.setText(""+0.0f);
+        txtTotalGst.setText(""+0.0f);
+        txtTransport.setText(""+0.0f);
+        txtOther.setText(""+0.0f);
+        txtPaid.setText(""+0.0f);
+        txtDiscount.setText(""+0.0f);
+        txtGrandTotal.setText(""+0.0f);
+        date.setValue(LocalDate.now());
+        billList.clear();
+        billList.addAll(billService.getBillByDate(LocalDate.now()));
+        tableBill.refresh();
+        cmbBank.setValue(null);
+
+    }
+    private void updateBill() {
+        if(tableBill.getSelectionModel().getSelectedItem()==null) return;
+        trList.clear();
+        Bill bill = tableBill.getSelectionModel().getSelectedItem();
+        billno = bill.getBillno();
+        date.setValue(bill.getDate());
+        customer = bill.getCustomer();
+        setCustomer(customer);
+        trList.addAll(bill.getTransactions());
+        txtNetTotal.setText(String.valueOf(bill.getNettotal()));
+        txtTotalGst.setText(String.valueOf(bill.getGst()));
+        txtTransport.setText(String.valueOf(bill.getTransport()));
+        txtOther.setText(String.valueOf(bill.getOther()));
+        txtPaid.setText(String.valueOf(bill.getPaid()));
+        txtDiscount.setText(String.valueOf(bill.getDiscount()));
+        txtGrandTotal.setText(String.valueOf(bill.getGrand()));
+        cmbBank.setValue(bill.getBank().getName());
+        calculateGrandTotal();
+        tableTr.refresh();
+
+    }
+    private void save() {
+        if(!validateBill()) return;
+        calculateGrandTotal();
+        Bill oldBill = null;
+        Bill bill = Bill.builder()
+                .bank(bankService.getByName(cmbBank.getValue()))
+                .customer(customer)
+                .date(date.getValue())
+                .gst(Float.parseFloat(txtTotalGst.getText()))
+                .discount(Float.parseFloat(txtDiscount.getText()))
+                .grand(Float.parseFloat(txtGrandTotal.getText()))
+                .nettotal(Float.parseFloat(txtNetTotal.getText()))
+                .other(Float.parseFloat(txtOther.getText()))
+                .paid(Float.parseFloat(txtPaid.getText()))
+                .transactions(new ArrayList<>())
+                .transport(Float.parseFloat(txtTransport.getText()))
+                .build();
+        if(billno!=null){
+            oldBill = billService.getByBillno(billno);
+            addStock(oldBill.getTransactions());
+            bill.setBillno(billno);
+        }
+        for(Transaction tr:trList)
+        {
+            tr.setId(null);
+            tr.setBill(bill);
+            bill.getTransactions().add(tr);
+        }
+        int flag = billService.saveBill(bill);
+        if(flag==1){
+            reduceStock(bill.getTransactions());
+            alert.showSuccess("Bill Saved Success");
+            clearBill();
+        }
+        else if(flag==2)
+        {
+
+            reduceStock(bill.getTransactions());
+            alert.showSuccess("Bill Updated Success");
+            clearBill();
+        }
+        else
+            alert.showError("Error in Saving Bill");
+    }
+    private boolean validateBill() {
+        if(trList.size()==0)
+        {
+            alert.showError("No Data to Save");
+            return false;
+        }
+        if(date.getValue()==null)
+        {
+            alert.showError("Select Billing Date");
+            date.requestFocus();
+            return false;
+        }
+        if(customer==null)
+        {
+            alert.showError("Select Customer!");
+            txtCustomerName.requestFocus();
+            return false;
+        }
+        if(cmbBank.getValue()==null)
+        {
+            alert.showError("Select Bank Name");
+            cmbBank.requestFocus();
+            return false;
+        }
+        if(txtPaid.getText().isEmpty())
+        {
+            txtPaid.setText(""+0.0f);
+        }
+
+        return true;
+
+    }
     private void remove() {
         if(tableTr.getSelectionModel().getSelectedItem()==null)return;
         Transaction tr = tableTr.getSelectionModel().getSelectedItem();
@@ -248,7 +407,6 @@ public class BillingController implements Initializable {
         calculateGrandTotal();
 
     }
-
     private void update() {
         if(tableTr.getSelectionModel().getSelectedItem()==null)
             return;
@@ -272,10 +430,11 @@ public class BillingController implements Initializable {
                 .unit(cmbUnit.getValue())
                 .itemStock(stockService.getByItemId(item.getId()))
                 .build();
+        if(checkStock(tr.getItemStock(),tr.getQuantity())==0) return;
         addInTrList(tr);
         clear();
         txtCode.requestFocus();
-        System.out.println(tr);
+        //System.out.println(tr);
 
     }
     private void addInTrList(Transaction tr) {
@@ -412,4 +571,53 @@ public class BillingController implements Initializable {
          txtGst.setText("");
      }
  }
+
+    private void reduceStock(List<Transaction> list){
+        for(Transaction tr:list){
+            tr.getItemStock().setQuantity(tr.getQuantity());
+            itemStockService.reduceStock(tr.getItemStock());
+        }
+    }
+    private void addStock(List<Transaction> list){
+        for(Transaction tr:list){
+            tr.getItemStock().setQuantity(tr.getQuantity());
+            stockService.save(tr.getItemStock());
+        }
+    }
+    private int checkStock(ItemStock stock,float q){
+        float qty=0.0f;
+        for(Transaction tr:trList)
+        {
+            if(tr.getItemStock().getId().equals(stock.getId()))
+            {
+                qty = tr.getQuantity();
+                break;
+            }
+        }
+
+        qty=stock.getQuantity()-qty;
+        System.out.println("old stock "+qty);
+        if(q>qty){
+            alert.showError("Less Quantity available in Stock"+qty);
+            txtQuantity.requestFocus();
+            txtQuantity.selectAll();
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+    private void addCustomer() {
+      DialogPane pane =   fxmlLoader.getDialogPage("/fxml/create/AddCustomerDialog.fxml");
+        AddCustomerDialog dialog = fxmlLoader.getLoader().getController();
+        Dialog<ButtonType> di = new Dialog<>();
+        di.setDialogPane(pane);
+        di.setTitle("Add New Customer");
+        //di.showAndWait();
+        Optional<ButtonType> clickedButton = di.showAndWait();
+        if(clickedButton.get()==ButtonType.FINISH){
+            System.out.println("Finish Clicked");
+        }
+    }
+
 }

@@ -42,6 +42,7 @@ public class Transaction {
     private ItemStock itemStock;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "billno")
     private Bill bill;
 
