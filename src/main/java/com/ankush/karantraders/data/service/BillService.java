@@ -5,8 +5,10 @@ import com.ankush.karantraders.data.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
@@ -32,10 +34,19 @@ public class BillService {
         return repository.findByDate(date);
     }
     public List<Bill>getBillByCustomerName(String customername){
-        return repository.findByCustomer_Customername(customername);
+
+            return repository.findByCustomer_Customername(customername);
+
+
     }
     public Bill getByBillno(Long billno){
         return repository.getById(billno);
+    }
+    public Bill findByBillNo(Long billno) {
+        if (!repository.findByBillno(billno).isEmpty()) {
+            return repository.findByBillno(billno).orElse(null);
+        }
+        else return null;
     }
 
 }

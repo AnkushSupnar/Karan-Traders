@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.ankush.karantraders.config.SpringFXMLLoader;
+import com.ankush.karantraders.view.FxmlView;
 import com.ankush.karantraders.view.StageManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,17 @@ public class MainController implements Initializable{
         btnAddBank.setOnAction(e->{
             centerPane.getChildren().clear();
             centerPane.getChildren().addAll(getNode("/fxml/create/AddBank.fxml"));
+        });
+        btnDaillyBilling.setOnAction(e->{
+            centerPane.getChildren().clear();
+            centerPane.getChildren().addAll(getNode("/fxml/transaction/Billing.fxml"));
+        });
+        btnPurchaseinvoice.setOnAction(e->{
+            stageManager.switchScene(FxmlView.PURCHASE);
+        });
+        btnDeliveryChallan.setOnAction(e->{
+            centerPane.getChildren().clear();
+            centerPane.getChildren().addAll(getNode("/fxml/transaction/DelivaryChallan.fxml"));
         });
     }
     private Node getNode(String filePath)

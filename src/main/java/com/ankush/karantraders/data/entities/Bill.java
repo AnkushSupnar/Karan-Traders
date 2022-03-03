@@ -1,6 +1,8 @@
 package com.ankush.karantraders.data.entities;
 
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,6 +20,7 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "billno")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Long billno;
 
     @Column(name = "date")

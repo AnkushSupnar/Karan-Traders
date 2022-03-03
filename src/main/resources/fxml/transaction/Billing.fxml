@@ -23,11 +23,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="777.0" prefWidth="1196.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.transaction.BillingController">
+<AnchorPane fx:id="mainPane" prefHeight="777.0" prefWidth="1242.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.transaction.BillingController">
    <children>
       <StackPane layoutX="181.0" layoutY="22.0" prefHeight="28.0" prefWidth="600.0" style="-fx-background-color: #2262C6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily Billing">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivary Challan">
                <font>
                   <Font name="Georgia" size="18.0" />
                </font>
@@ -38,11 +38,11 @@
         <items>
           <AnchorPane maxWidth="790.0" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
                <children>
-                  <Pane prefHeight="181.0" prefWidth="513.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                  <Pane prefHeight="171.0" prefWidth="780.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                      <children>
                         <HBox layoutX="5.0" layoutY="39.0" spacing="5.0">
                            <children>
-                              <TextField fx:id="txtCustomerName" prefHeight="26.0" prefWidth="396.0">
+                              <TextField fx:id="txtCustomerName" prefHeight="26.0" prefWidth="396.0" promptText="Select Customer">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -72,13 +72,13 @@
                               <FontAwesomeIcon fill="#2262c6" glyphName="INFO" />
                            </graphic>
                         </Label>
-                        <TextArea fx:id="txtCustomerInfo" editable="false" layoutX="5.0" layoutY="88.0" prefHeight="78.0" prefWidth="565.0">
+                        <TextArea fx:id="txtCustomerInfo" editable="false" layoutX="5.0" layoutY="88.0" prefHeight="78.0" prefWidth="565.0" promptText="Customer Information">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></TextArea>
                      </children>
                   </Pane>
-                  <Pane layoutX="5.0" layoutY="185.0" prefHeight="101.0" prefWidth="762.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                  <Pane layoutX="5.0" layoutY="171.0" prefHeight="101.0" prefWidth="762.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                      <children>
                         <HBox layoutX="5.0" layoutY="3.0" spacing="2.0">
                            <children>
@@ -158,7 +158,7 @@
                         </MFXCheckbox>
                      </children>
                   </Pane>
-                  <TableView fx:id="tableTr" layoutX="14.0" layoutY="288.0" prefHeight="284.0" prefWidth="768.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="288.0">
+                  <TableView fx:id="tableTr" layoutX="14.0" layoutY="277.0" prefHeight="295.0" prefWidth="780.0" stylesheets="@../css/table.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="277.0">
                     <columns>
                       <TableColumn fx:id="colSr" prefWidth="55.0" text="SR.NO" />
                       <TableColumn fx:id="colCode" prefWidth="95.0" text="CODE" />
@@ -314,7 +314,11 @@
                            </color>
                         </MFXFontIcon>
                         <MFXTextField fx:id="txtSearchBillNo" floatMode="BORDER" floatingText="Bill No" prefHeight="19.0" prefWidth="79.0" />
-                        <MFXTextField fx:id="txtSearchCustomer" floatMode="BORDER" floatingText="Customer Name" prefHeight="38.0" prefWidth="145.0" />
+                        <TextField fx:id="txtSearchCustomer" prefHeight="35.0" promptText="Enter Customer Name">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
                         <DatePicker fx:id="dateSearch" prefHeight="35.0" prefWidth="100.0" />
                         <MFXButton fx:id="btnShowAll" buttonType="RAISED" depthLevel="LEVEL5" prefHeight="35.0" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="ALL">
                            <font>
@@ -326,7 +330,7 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <TableView fx:id="tableBill" layoutX="62.0" layoutY="222.0" prefHeight="200.0" prefWidth="348.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0">
+                  <TableView fx:id="tableBill" layoutX="62.0" layoutY="222.0" prefHeight="200.0" prefWidth="348.0" stylesheets="@../css/table.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0">
                     <columns>
                       <TableColumn fx:id="colBill" prefWidth="56.0" text="BILL NO" />
                       <TableColumn fx:id="colDate" prefWidth="94.0" text="DATE" />

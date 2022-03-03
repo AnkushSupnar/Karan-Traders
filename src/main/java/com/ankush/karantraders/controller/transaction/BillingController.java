@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import net.bytebuddy.asm.Advice;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
@@ -42,6 +43,7 @@ public class BillingController implements Initializable {
     private StageManager stageManager;
     @Autowired
     private SpringFXMLLoader fxmlLoader;
+    @FXML private AnchorPane mainPane;
     @FXML private TextField txtCustomerName,txtDescription;
     @FXML private Button btnAdd;
     @FXML private Button btnAddCustomer;
@@ -73,8 +75,8 @@ public class BillingController implements Initializable {
     @FXML private MFXTextField txtAmount,txtCode;
     @FXML private TextArea txtCustomerInfo;
     @FXML private MFXTextField txtDiscount,txtGrandTotal,txtGst,txtNetTotal,txtOther,txtPaid,txtQuantity,txtRate;
-    @FXML private MFXTextField txtSearchBillNo,txtSearchCustomer,txtTotalGst,txtTransport;
-
+    @FXML private MFXTextField txtSearchBillNo,txtTotalGst,txtTransport;
+    @FXML private TextField txtSearchCustomer;
     @Autowired private ItemStockService stockService;
     @Autowired private ItemStockService itemStockService;
     @Autowired private CustomerService customerService;
@@ -119,13 +121,15 @@ public class BillingController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colPaid.setCellValueFactory(new PropertyValueFactory<>("paid"));
         ColGrand.setCellValueFactory(new PropertyValueFactory<>("grand"));
-        billList.addAll(billService.getAllBills());
+        billList.addAll(billService.getBillByDate(date.getValue()));
         tableBill.setItems(billList);
      cmbBank.getItems().addAll(bankService.getAllBankNames());
      customerNameProvider = SuggestionProvider.create(customerService.getAllCustomerNames());
      TextFields.bindAutoCompletion(txtCustomerName,customerNameProvider);
      TextField text = txtCustomerName;
      TextFields.bindAutoCompletion(text,customerNameProvider);
+     TextFields.bindAutoCompletion(txtSearchCustomer,customerNameProvider);
+
      txtCustomerName.setOnAction(e->{
          if(!txtCustomerName.getText().isEmpty()){
              btnSearch.requestFocus();
@@ -266,6 +270,40 @@ public class BillingController implements Initializable {
      btnClearBill.setOnAction(e->clearBill());
      btnUpdateBill.setOnAction(e->updateBill());
      btnAddCustomer.setOnAction(e->addCustomer());
+     txtSearchBillNo.textProperty().addListener(new ChangeListener<String>() {
+         @Override
+         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+             if (!newValue.matches("\\d{0,100000}?")) {
+                 txtSearchBillNo.setText(oldValue);
+             }
+         }
+     });
+     txtSearchBillNo.setOnAction(e->{
+         if(!txtSearchBillNo.getText().isEmpty()){
+
+             if(billService.findByBillNo(Long.parseLong(txtSearchBillNo.getText()))!=null){
+                 billList.clear();
+                 billList.add(billService.findByBillNo(Long.parseLong(txtSearchBillNo.getText())));
+             }
+         }
+     });
+     txtSearchCustomer.setOnAction(e->{
+        if(!txtSearchCustomer.getText().isEmpty()){
+            billList.clear();
+            billList.addAll(billService.getBillByCustomerName(txtSearchCustomer.getText()));
+        }
+     });
+     dateSearch.setOnAction(e->{
+         if(dateSearch.getValue()!=null){
+             billList.clear();
+             billList.addAll(billService.getBillByDate(dateSearch.getValue()));
+         }
+     });
+     btnShowAll.setOnAction(e->{
+         billList.clear();
+         billList.addAll(billService.getAllBills());
+     });
+     btnHome.setOnAction(e->mainPane.setVisible(false));
     }
 
 
@@ -616,7 +654,9 @@ public class BillingController implements Initializable {
         //di.showAndWait();
         Optional<ButtonType> clickedButton = di.showAndWait();
         if(clickedButton.get()==ButtonType.FINISH){
-            System.out.println("Finish Clicked");
+            customerNameProvider = SuggestionProvider.create(customerService.getAllCustomerNames());
+            TextFields.bindAutoCompletion(txtCustomerName,customerNameProvider);
+            TextFields.bindAutoCompletion(txtSearchCustomer,customerNameProvider);
         }
     }
 

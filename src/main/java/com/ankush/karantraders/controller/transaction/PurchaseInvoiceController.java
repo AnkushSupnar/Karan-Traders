@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.ankush.karantraders.data.entities.*;
 import com.ankush.karantraders.data.service.*;
 import com.ankush.karantraders.view.AlertNotification;
+import com.ankush.karantraders.view.FxmlView;
 import com.ankush.karantraders.view.StageManager;
 
 import impl.org.controlsfx.skin.AutoCompletePopup;
@@ -173,6 +174,7 @@ public class PurchaseInvoiceController implements Initializable {
                 billList.addAll(purchaseService.getByDate(dateSearch.getValue()));
             }
         });
+        btnHome.setOnAction(e->stageManager.switchScene(FxmlView.HOME));
 
     }
     private void updateBIll() {

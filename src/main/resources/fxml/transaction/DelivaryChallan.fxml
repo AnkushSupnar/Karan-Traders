@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
+<?import io.github.palexdev.materialfx.font.MFXFontIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="mainPane" prefHeight="753.0" prefWidth="1254.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.karantraders.controller.transaction.DelivaryChallanController">
+   <children>
+      <SplitPane dividerPositions="0.6245608431810923" layoutX="166.0" layoutY="93.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="378.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane prefHeight="229.0" prefWidth="772.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                           <children>
+                              <HBox layoutX="5.0" layoutY="39.0" spacing="5.0">
+                                 <children>
+                                    <TextField fx:id="txtCustomerName" prefHeight="26.0" prefWidth="396.0" promptText="Select Customer">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </TextField>
+                                    <Button fx:id="btnSearch" mnemonicParsing="false" stylesheets="@../css/button.css" text="SEARCH">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SEARCH" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnAddCustomer" layoutX="413.0" layoutY="10.0" mnemonicParsing="false" stylesheets="@../css/button.css" text="NEW">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="PLUS" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <DatePicker fx:id="date" layoutX="79.0" layoutY="4.0" prefHeight="30.0" prefWidth="136.0" promptText="Select Date" />
+                              <Label layoutX="5.0" layoutY="11.0" text="Challan Date" />
+                              <Label layoutX="5.0" layoutY="71.0" text="Customer Information">
+                                 <graphic>
+                                    <FontAwesomeIcon fill="#2262c6" glyphName="INFO" />
+                                 </graphic>
+                              </Label>
+                              <TextArea fx:id="txtCustomerInfo" editable="false" layoutX="5.0" layoutY="88.0" prefHeight="78.0" prefWidth="565.0" promptText="Customer Info.">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </TextArea>
+                              <Label layoutX="5.0" layoutY="166.0" text="Select Site" />
+                              <HBox layoutX="5.0" layoutY="183.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="cmbSite" prefHeight="30.0" prefWidth="326.0" promptText="Select Site" />
+                                    <Button fx:id="btnSearchSite" mnemonicParsing="false" stylesheets="@../css/button.css" text="SEARCH SITE">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SEARCH" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnAddSite" mnemonicParsing="false" stylesheets="@../css/button.css" text="ADD SITE">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SEARCH" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="5.0" layoutY="229.0" prefHeight="101.0" prefWidth="762.0" style="-fx-border-color: #e1e0e7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                           <children>
+                              <HBox layoutX="5.0" layoutY="3.0" spacing="2.0">
+                                 <children>
+                                    <MFXTextField fx:id="txtCode" floatMode="BORDER" floatingText="Code" prefHeight="42.0" prefWidth="108.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <TextField fx:id="txtDescription" prefHeight="42.0" prefWidth="207.0" promptText="Description">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </TextField>
+                                    <MFXLegacyComboBox fx:id="cmbUnit" lineStrokeWidth="1.0" minWidth="63.0" prefHeight="39.0" prefWidth="63.0" promptText="Unit" styleClass="combo-box" />
+                                    <MFXTextField fx:id="txtRate" floatMode="BORDER" floatingText="Rate" layoutX="105.0" layoutY="10.0" prefWidth="63.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtQuantity" floatMode="BORDER" floatingText="Quantity" layoutX="388.0" layoutY="10.0" prefHeight="42.0" prefWidth="63.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtGst" floatMode="BORDER" floatingText=" GST %" layoutX="483.0" layoutY="10.0" prefHeight="42.0" prefWidth="81.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtAmount" editable="false" floatMode="BORDER" floatingText="Amount" layoutX="578.0" layoutY="10.0" prefHeight="42.0" prefWidth="81.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </MFXTextField>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="12.0" layoutY="62.0" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="btnAdd" mnemonicParsing="false" stylesheets="@../css/button.css" text="ADD">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="PLUS" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnUpdate" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPADATE">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="EDIT" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnRemove" mnemonicParsing="false" stylesheets="@../css/button.css" text="REMOVE">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="CLOSE" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnClear" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="RECYCLE" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <MFXCheckbox fx:id="chkGst" contentDisplay="CENTER" gap="5.0" graphicTextGap="0.0" layoutX="375.0" layoutY="66.0" text="GST for All" textAlignment="CENTER" textExpand="true" wrapText="true">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXCheckbox>
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tableTr" layoutX="5.0" layoutY="333.0" prefHeight="301.0" prefWidth="772.0" stylesheets="@../css/table.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="119.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="333.0">
+                           <columns>
+                              <TableColumn fx:id="colSr" prefWidth="55.0" text="SR.NO" />
+                              <TableColumn fx:id="colCode" prefWidth="95.0" text="CODE" />
+                              <TableColumn fx:id="colDescription" prefWidth="205.0" text="DESCRIPTION" />
+                              <TableColumn fx:id="colUnit" prefWidth="48.0" text="UNIT" />
+                              <TableColumn fx:id="colQuantity" prefWidth="95.0" text="QUANTITY" />
+                              <TableColumn fx:id="colRate" prefWidth="95.0" text="RATE" />
+                              <TableColumn fx:id="colGst" prefWidth="77.0" text="GST" />
+                              <TableColumn fx:id="colAmount" prefWidth="92.0" text="AMOUNT" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="6.0" layoutY="635.4" prefHeight="110.0" prefWidth="772.0" style="-fx-border-color: #e1e0e7;" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="4.0">
+                           <children>
+                              <HBox layoutX="3.0" layoutY="10.0">
+                                 <children>
+                                    <MFXTextField fx:id="txtNetTotal" editable="false" floatMode="BORDER" floatingText="Net Total" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="+">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <MFXTextField fx:id="txtTotalGst" editable="false" floatMode="BORDER" floatingText="GST" layoutX="10.0" layoutY="10.0" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="+">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <MFXTextField fx:id="txtTransport" floatMode="BORDER" floatingText="Transport" layoutX="180.0" layoutY="10.0" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="+">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <MFXTextField fx:id="txtOther" floatMode="BORDER" floatingText="Other" layoutX="304.0" layoutY="10.0" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <MFXTextField fx:id="txtDiscount" floatMode="BORDER" floatingText="Discount" layoutX="428.0" layoutY="10.0" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="=">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <MFXTextField fx:id="txtGrandTotal" editable="false" floatMode="BORDER" floatingText="Grand Total" layoutX="552.0" layoutY="10.0" prefHeight="42.0" prefWidth="120.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </MFXTextField>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="5.0" layoutY="65.0" spacing="10.0">
+                                 <children>
+                                    <MFXButton fx:id="btnSave" buttonType="RAISED" depthLevel="LEVEL5" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="SAVE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SAVE" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton fx:id="btnPrint" buttonType="RAISED" depthLevel="LEVEL5" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="PRINT">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SAVE" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton fx:id="btnUpdateBill" buttonType="RAISED" depthLevel="LEVEL5" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="UPDATE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="EDIT" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton fx:id="btnClearBill" buttonType="RAISED" depthLevel="LEVEL5" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="CLEAR">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <MFXFontIcon description="mfx-delete-alt" size="20.0" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton fx:id="btnHome" buttonType="RAISED" depthLevel="LEVEL5" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="HOME">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <MFXFontIcon description="mfx-home" size="20.0" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <TableView fx:id="tableChallan" prefHeight="698.0" prefWidth="451.0" stylesheets="@../css/table.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.39999999999998">
+                     <columns>
+                        <TableColumn fx:id="colChallan" prefWidth="68.79998475313187" text="CH.NO" />
+                        <TableColumn fx:id="colDate" prefWidth="108.0" text="DATE" />
+                        <TableColumn fx:id="colCustomerName" prefWidth="212.0000762939453" text="CUSTOMER NAME" />
+                        <TableColumn fx:id="ColGrand" prefWidth="66.4000244140625" text="AMOUNT" />
+                     </columns>
+                  </TableView>
+                  <HBox AnchorPane.topAnchor="10.0">
+                     <children>
+                        <MFXFontIcon description="mfx-filter-alt" size="20.0">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                           <color>
+                              <Color red="0.7831708788871765" green="0.057992201298475266" blue="0.8947368264198303" />
+                           </color>
+                        </MFXFontIcon>
+                        <MFXTextField fx:id="txtSearchBillNo" floatMode="BORDER" floatingText="Challan No" prefHeight="19.0" prefWidth="79.0" />
+                        <TextField fx:id="txtSearchCustomer" prefHeight="37.0" promptText="Enter Customer Name">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <DatePicker fx:id="dateSearch" prefHeight="37.0" prefWidth="100.0" />
+                        <MFXButton fx:id="btnShowAll" buttonType="RAISED" depthLevel="LEVEL5" prefHeight="37.0" rippleAnimationSpeed="0.0" rippleColor="#4ec0f5" stylesheets="@../css/button.css" text="ALL">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <MFXFontIcon description="mfx-eye" size="15.0" />
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
