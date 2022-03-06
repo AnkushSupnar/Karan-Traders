@@ -42,12 +42,9 @@ public class Main extends Application  {
 		springContext.close();
 	}
 	protected void displayInitialScene() {
-		
 		stageManager.switchScene(FxmlView.CHALLAN);
 		//stageManager.switchScene(FxmlView.);
 		//stageManager.switchScene(FxmlView.HOME);
-
-
 	}
 	private ConfigurableApplicationContext bootstrapSpringApplicationContext() {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(Main.class);

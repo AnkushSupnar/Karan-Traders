@@ -99,8 +99,6 @@ public class BillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        setProperties();
-
-
     }
     private void setProperties()
     {
@@ -443,7 +441,6 @@ public class BillingController implements Initializable {
                 Float.parseFloat(txtTotalGst.getText())-(tr.getAmount()-(tr.getQuantity()*tr.getRate()))
         ));
         calculateGrandTotal();
-
     }
     private void update() {
         if(tableTr.getSelectionModel().getSelectedItem()==null)
@@ -453,8 +450,6 @@ public class BillingController implements Initializable {
         setItem(itemService.getByDescription(tr.getDescription()));
         txtRate.setText(String.valueOf(tr.getRate()));
         txtQuantity.requestFocus();
-
-
     }
     private void add() {
         if(!validate()) return;
